@@ -1,55 +1,57 @@
-import arrayShuffle from 'array-shuffle';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+	useCallback, useEffect, useMemo, useState,
+} from 'react';
 import {
-	ActivityIndicator,
 	Button,
-	SafeAreaView, StyleSheet, Text, TouchableOpacity, View,
+	SafeAreaView,
+	StyleSheet,
+	View,
 } from 'react-native';
 import Card from './src/components/ Card';
 import { addRandomWord, getActiveWords, removeWord } from './src/lib/storage';
 import words from './src/utils/words.json';
 
 const App = () => {
-	const [showAnswer, setShowAnswer] = useState(false);
+	const [showAnswer, setShowWordAnswer] = useState(false);
 	const [cards, setCards] = useState<string[]>([]);
+
+	const activeCard = useMemo(() => words.find((w) => w.word === cards[0]), [cards]);
 
 	useEffect(() => {
 		updateCards();
 	}, []);
 
 	const updateCards = async () => {
-		setCards(await getActiveWords());
+		const newCards = await getActiveWords();
+		setCards(newCards);
 	};
 
 	const addCard = async () => {
+		setShowWordAnswer(false);
 		await addRandomWord();
 		await updateCards();
 	};
 
-	const removeCard = async (word: string) => {
-		await removeWord(word);
+	const removeCard = useCallback(async () => {
+		setShowWordAnswer(false);
+		await removeWord(activeCard!.word);
 		await updateCards();
-	};
-
-	const cardObjects = useMemo(() => (
-		cards.map((c) => words.find((w) => w.word === c)!)
-	), [cards]);
+	}, [activeCard]);
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<Button onPress={addCard} title="Add word" color="white" />
 			<View style={styles.cardWrapper}>
-				{cardObjects.map((c, index) => (
+				{activeCard != null && (
 					<Card
-						key={c.word}
-						interactive={index === 0}
-						word={c.word}
-						translation={c.translation}
-						onDismiss={() => removeCard(c.word)}
-						onPress={() => null}
-						showAnswer={false}
+						interactive
+						word={activeCard.word}
+						translation={activeCard.translation}
+						onDismiss={removeCard}
+						onPress={() => setShowWordAnswer(!showAnswer)}
+						showAnswer={showAnswer}
 					/>
-				)).reverse()}
+				)}
 			</View>
 		</SafeAreaView>
 	);

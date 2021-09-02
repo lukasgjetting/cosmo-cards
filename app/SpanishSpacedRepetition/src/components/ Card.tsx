@@ -1,4 +1,6 @@
-import React, { useLayoutEffect, useMemo, useRef } from 'react';
+import React, {
+	useEffect, useLayoutEffect, useMemo, useRef,
+} from 'react';
 import {
 	Animated,
 	Dimensions,
@@ -19,7 +21,7 @@ const {
 const cardWidth = screenWidth * 0.80;
 const cardHeight = Math.min(screenHeight * 0.80, cardWidth * 1.50);
 
-const minDismissDrag = screenWidth * 0.4;
+const minDismissDrag = screenWidth * 0.30;
 
 interface CardProps {
 	showAnswer: boolean;
@@ -71,7 +73,16 @@ const Card: React.FC<CardProps> = ({
 
 			}).start(callback);
 		},
-	}), []);
+	}), [onDismiss]);
+
+	useEffect(() => {
+		pan.current.setValue({ x: 0, y: screenHeight });
+
+		Animated.spring(pan.current, {
+			useNativeDriver: false,
+			toValue: { x: 0, y: 0 },
+		}).start();
+	}, [word]);
 
 	useLayoutEffect(() => {
 		if (cardRef.current) {
