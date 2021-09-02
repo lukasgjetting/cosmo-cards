@@ -22,6 +22,7 @@ const cardWidth = screenWidth * 0.80;
 const cardHeight = Math.min(screenHeight * 0.80, cardWidth * 1.50);
 
 const minDismissDrag = screenWidth * 0.30;
+const velocityWeight = 75;
 
 interface CardProps {
 	showAnswer: boolean;
@@ -61,10 +62,13 @@ const Card: React.FC<CardProps> = ({
 			const y = 0;
 			let callback;
 
-			if (Math.abs(gestureState.dx) > minDismissDrag) {
+			const drag = Math.abs(gestureState.dx) + Math.abs(gestureState.vx) * velocityWeight;
+
+			if (drag > minDismissDrag) {
 				callback = onDismiss;
 				x = 1.3 * (gestureState.dx > 0 ? screenWidth : -screenWidth);
 			}
+
 			Animated.spring(pan.current, {
 				useNativeDriver: false,
 				toValue: { x, y },
@@ -159,7 +163,7 @@ const styles = StyleSheet.create({
 		borderRadius: 6,
 		shadowColor: '#002766',
 		shadowRadius: 2,
-		shadowOpacity: 1,
+		shadowOpacity: 0.5,
 		shadowOffset: { width: 0, height: 1 },
 	},
 	front: {
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
 	separator: {
 		width: '80%',
 		height: 1,
-		backgroundColor: '#5b8c00',
+		backgroundColor: '#CCC',
 	},
 });
 
