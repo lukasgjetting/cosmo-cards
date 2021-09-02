@@ -1,14 +1,51 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import words from '../utils/words.json';
+
+export interface HistoryEntry {
+	word: string;
+	success: boolean;
+}
 
 export interface Store {
 	activeWords: string[];
-	history: { string: number; }
+	history: HistoryEntry[];
 }
 
-const getValue = (
-	key: keyof Store,
-	defaultValue: any,
-): any => AsyncStorage.getItem(key, defaultValue);
+const getValue = async <T extends keyof Store>(
+	key: T,
+	defaultValue: Store[T],
+): Promise<Store[T]> => JSON.parse(await AsyncStorage.getItem(key) || 'null') || defaultValue;
 
-export const getActiveWords = (): Store['activeWords'] => getValue('activeWords', []);
-export const history = (): Store['history'] => getValue('history', []);
+const setValue = <T extends keyof Store>(
+	key: T,
+	value: Store[T],
+) => AsyncStorage.setItem(key, JSON.stringify(value));
+
+export const getActiveWords = (): Promise<Store['activeWords']> => getValue('activeWords', []);
+export const getHistory = () => getValue('history', []);
+
+export const addRandomWord = async () => {
+	const currentWords = await getActiveWords();
+
+	const wordKeys = words
+		.map((w) => w.word)
+		.filter((w) => !currentWords.includes(w));
+
+	if (wordKeys.length === 0) {
+		return;
+	}
+
+	const index = Math.floor(Math.random() * wordKeys.length);
+
+	const newWords = [...currentWords, wordKeys[index]];
+
+	await setValue('activeWords', newWords);
+};
+
+export const removeWord = async (word: string) => {
+	const currentWords = await getActiveWords();
+
+	const newWords = currentWords.filter((w) => w !== word);
+
+	await setValue('activeWords', newWords);
+};

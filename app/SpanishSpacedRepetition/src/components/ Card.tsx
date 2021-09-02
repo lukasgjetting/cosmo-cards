@@ -11,13 +11,20 @@ import {
 } from 'react-native';
 import FlipCard from 'react-native-card-flip';
 
-const screenWidth = Dimensions.get('window').width;
+const {
+	width: screenWidth,
+	height: screenHeight,
+} = Dimensions.get('window');
+
+const cardWidth = screenWidth * 0.80;
+const cardHeight = Math.min(screenHeight * 0.80, cardWidth * 1.50);
 
 const minDismissDrag = screenWidth * 0.4;
 
 interface CardProps {
 	showAnswer: boolean;
 	word: string;
+	interactive: boolean;
 	translation: string;
 	onPress: TouchableOpacityProps['onPress'];
 	onDismiss: () => void;
@@ -27,6 +34,7 @@ const Card: React.FC<CardProps> = ({
 	showAnswer,
 	word,
 	translation,
+	interactive,
 	onPress,
 	onDismiss,
 }) => {
@@ -35,7 +43,7 @@ const Card: React.FC<CardProps> = ({
 	const pan = useRef(new Animated.ValueXY());
 
 	const panResponder = useMemo(() => PanResponder.create({
-		onStartShouldSetPanResponder: () => true,
+		onStartShouldSetPanResponder: () => false,
 		onMoveShouldSetPanResponder: (event, gestureState) => (
 			gestureState.dx !== 0
 			|| gestureState.dy !== 0
@@ -49,16 +57,19 @@ const Card: React.FC<CardProps> = ({
 		onPanResponderRelease: (_event, gestureState) => {
 			let x = 0;
 			const y = 0;
+			let callback;
 
 			if (Math.abs(gestureState.dx) > minDismissDrag) {
-				onDismiss();
-
-				x = 1.5 * (gestureState.dx > 0 ? screenWidth : -screenWidth);
+				callback = onDismiss;
+				x = 1.3 * (gestureState.dx > 0 ? screenWidth : -screenWidth);
 			}
 			Animated.spring(pan.current, {
 				useNativeDriver: false,
 				toValue: { x, y },
-			}).start();
+				velocity: { x: 3, y: 3 },
+				overshootClamping: true,
+
+			}).start(callback);
 		},
 	}), []);
 
@@ -78,13 +89,15 @@ const Card: React.FC<CardProps> = ({
 
 	return (
 		<Animated.View
-			{...panResponder.panHandlers}
+			{...(interactive ? panResponder.panHandlers : {})}
 			style={[
 				pan.current.getLayout(),
 				{
-					transform: [{
-						rotate: rotation,
-					}],
+					transform: [
+						{ rotate: rotation },
+						{ translateX: (screenWidth - cardWidth) / 2 },
+						{ translateY: (screenHeight - cardHeight) / 3 },
+					],
 				},
 				styles.container,
 			]}
@@ -97,6 +110,7 @@ const Card: React.FC<CardProps> = ({
 				flipDirection="x"
 			>
 				<TouchableOpacity
+					disabled={!interactive}
 					style={[styles.sideContainer, styles.front]}
 					onPress={onPress}
 					activeOpacity={1}
@@ -104,6 +118,7 @@ const Card: React.FC<CardProps> = ({
 					<Text style={styles.word}>{word}</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
+					disabled={!interactive}
 					style={[styles.sideContainer, styles.back]}
 					onPress={onPress}
 					activeOpacity={1}
@@ -120,8 +135,8 @@ const Card: React.FC<CardProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
-		height: '100%',
-		width: '100%',
+		width: cardWidth,
+		height: cardHeight,
 	},
 	card: {
 		flex: 1,
@@ -131,9 +146,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 6,
-		shadowRadius: 4,
-		shadowOpacity: 0.5,
-		shadowOffset: { width: 0, height: 2 },
+		shadowColor: '#002766',
+		shadowRadius: 2,
+		shadowOpacity: 1,
+		shadowOffset: { width: 0, height: 1 },
 	},
 	front: {
 		backgroundColor: 'white',
