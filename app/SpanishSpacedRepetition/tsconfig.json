@@ -12,9 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   },
   "exclude": [
-    "node_modules", "babel.config.js", "metro.config.js", "jest.config.js"
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
   ]
 }

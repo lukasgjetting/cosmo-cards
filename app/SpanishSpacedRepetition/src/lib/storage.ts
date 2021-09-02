@@ -1,0 +1,3 @@
+interface Store {
+	activeWordIds: number[];
+}
