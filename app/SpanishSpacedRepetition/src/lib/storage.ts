@@ -1,3 +1,3 @@
-interface Store {
+export interface Store {
 	activeWordIds: number[];
 }
