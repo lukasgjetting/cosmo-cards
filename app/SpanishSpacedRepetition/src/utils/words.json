@@ -1,6 +1,5 @@
 [
     {
-        "id": 1,
         "word": "Querer",
         "translation": "To want",
         "conjugations": [
@@ -13,7 +12,6 @@
         ]
     },
     {
-        "id": 2,
         "word": "Merendar",
         "translation": "To snack",
         "conjugations": [
@@ -26,7 +24,6 @@
         ]
     },
     {
-        "id": 3,
         "word": "Preferir",
         "translation": "To prefer",
         "conjugations": [
@@ -39,7 +36,6 @@
         ]
     },
     {
-        "id": 4,
         "word": "Querer",
         "translation": "To want",
         "conjugations": [
@@ -47,12 +43,11 @@
             "Quieres",
             "Quiere",
             "Queremos",
-            "Quereís",
+            "Queréis",
             "Quieren"
         ]
     },
     {
-        "id": 5,
         "word": "Entender",
         "translation": "To understand",
         "conjugations": [
@@ -60,12 +55,11 @@
             "Entiendes",
             "Entiende",
             "Entendemos",
-            "Entendeís",
+            "Entendéis",
             "Entienden"
         ]
     },
     {
-        "id": 6,
         "word": "Recomendar",
         "translation": "To recommend",
         "conjugations": [
@@ -78,7 +72,6 @@
         ]
     },
     {
-        "id": 7,
         "word": "Poder",
         "translation": "Can",
         "conjugations": [
@@ -91,7 +84,6 @@
         ]
     },
     {
-        "id": 8,
         "word": "Contar",
         "translation": "To tell",
         "conjugations": [
@@ -104,7 +96,6 @@
         ]
     },
     {
-        "id": 9,
         "word": "Encontrar",
         "translation": "To find",
         "conjugations": [
@@ -117,7 +108,6 @@
         ]
     },
     {
-        "id": 10,
         "word": "Probar",
         "translation": "To try",
         "conjugations": [
@@ -130,7 +120,6 @@
         ]
     },
     {
-        "id": 11,
         "word": "Acordarse",
         "translation": "To remember",
         "conjugations": [
@@ -143,7 +132,6 @@
         ]
     },
     {
-        "id": 12,
         "word": "Elegir",
         "translation": "To choose",
         "conjugations": [
@@ -156,7 +144,6 @@
         ]
     },
     {
-        "id": 13,
         "word": "Conseguir",
         "translation": "To get",
         "conjugations": [
@@ -169,7 +156,6 @@
         ]
     },
     {
-        "id": 14,
         "word": "Reirse",
         "translation": "To laugh",
         "conjugations": [
@@ -182,7 +168,6 @@
         ]
     },
     {
-        "id": 15,
         "word": "Sonreir",
         "translation": "To smile",
         "conjugations": [
@@ -190,12 +175,11 @@
             "Sonries",
             "Sonrie",
             "Sonreimos",
-            "Sonreís",
+            "Sonréis",
             "Sonrien"
         ]
     },
     {
-        "id": 16,
         "word": "Servir",
         "translation": "To serve",
         "conjugations": [
