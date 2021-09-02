@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "word": "Querer",
         "translation": "To want",
         "conjugations": [
@@ -10,5 +11,201 @@
             "Queréis",
             "Quieren"
         ]
+    },
+    {
+        "id": 2,
+        "word": "Merendar",
+        "translation": "To snack",
+        "conjugations": [
+            "Meriendo",
+            "Meriendas",
+            "Merienda",
+            "Merendamos",
+            "Merendais",
+            "Meriendan"
+        ]
+    },
+    {
+        "id": 3,
+        "word": "Preferir",
+        "translation": "To prefer",
+        "conjugations": [
+            "Prefiero",
+            "Prefieres",
+            "Prefiere",
+            "Preferimos",
+            "Preferís",
+            "Prefieren"
+        ]
+    },
+    {
+        "id": 4,
+        "word": "Querer",
+        "translation": "To want",
+        "conjugations": [
+            "Quiero",
+            "Quieres",
+            "Quiere",
+            "Queremos",
+            "Quereís",
+            "Quieren"
+        ]
+    },
+    {
+        "id": 5,
+        "word": "Entender",
+        "translation": "To understand",
+        "conjugations": [
+            "Entiendo",
+            "Entiendes",
+            "Entiende",
+            "Entendemos",
+            "Entendeís",
+            "Entienden"
+        ]
+    },
+    {
+        "id": 6,
+        "word": "Recomendar",
+        "translation": "To recommend",
+        "conjugations": [
+            "Recomiendo",
+            "Recomiendas",
+            "Recomienda",
+            "Recomendamos",
+            "Recomendáis",
+            "Recomiendan"
+        ]
+    },
+    {
+        "id": 7,
+        "word": "Poder",
+        "translation": "Can",
+        "conjugations": [
+            "Puedo",
+            "Puedes",
+            "Puede",
+            "Podemos",
+            "Podéis",
+            "Pueden"
+        ]
+    },
+    {
+        "id": 8,
+        "word": "Contar",
+        "translation": "To tell",
+        "conjugations": [
+            "Cuento",
+            "Cuentas",
+            "Cuenta",
+            "Contamos",
+            "Contáis",
+            "Cuentan"
+        ]
+    },
+    {
+        "id": 9,
+        "word": "Encontrar",
+        "translation": "To find",
+        "conjugations": [
+            "Encuentro",
+            "Encuentras",
+            "Encuentra",
+            "Encontramos",
+            "Encontráis",
+            "Encuentran"
+        ]
+    },
+    {
+        "id": 10,
+        "word": "Probar",
+        "translation": "To try",
+        "conjugations": [
+            "Pruebo",
+            "Pruebas",
+            "Prueba",
+            "Probamos",
+            "Probáis",
+            "Prueban"
+        ]
+    },
+    {
+        "id": 11,
+        "word": "Acordarse",
+        "translation": "To remember",
+        "conjugations": [
+            "Acuerdo",
+            "Acuerdas",
+            "Acuerda",
+            "Acordamos",
+            "Acordáis",
+            "Acuerdan"
+        ]
+    },
+    {
+        "id": 12,
+        "word": "Elegir",
+        "translation": "To choose",
+        "conjugations": [
+            "Eligo",
+            "Eliges",
+            "Elige",
+            "Elegimos",
+            "Elegís",
+            "Eligen"
+        ]
+    },
+    {
+        "id": 13,
+        "word": "Conseguir",
+        "translation": "To get",
+        "conjugations": [
+            "Consigo",
+            "Consiges",
+            "Consige",
+            "Consegimos",
+            "Consegís",
+            "Consigen"
+        ]
+    },
+    {
+        "id": 14,
+        "word": "Reirse",
+        "translation": "To laugh",
+        "conjugations": [
+            "Río",
+            "Ríes",
+            "Ríe",
+            "Reimos",
+            "Reís",
+            "Ríen"
+        ]
+    },
+    {
+        "id": 15,
+        "word": "Sonreir",
+        "translation": "To smile",
+        "conjugations": [
+            "Sonrio",
+            "Sonries",
+            "Sonrie",
+            "Sonreimos",
+            "Sonreís",
+            "Sonrien"
+        ]
+    },
+    {
+        "id": 16,
+        "word": "Servir",
+        "translation": "To serve",
+        "conjugations": [
+            "Sirvo",
+            "Sirves",
+            "Sirve",
+            "Servimos",
+            "Servís",
+            "Serven"
+        ]
     }
+    
 ]
