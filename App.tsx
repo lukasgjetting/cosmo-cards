@@ -27,6 +27,7 @@ const App = () => {
 	const [showAnswer, setShowWordAnswer] = useState(false);
 	const [cards, setCards] = useState<string[]>([]);
 	const [showCongratulations, setShowCongratulations] = useState(false);
+	const [hasWrongAnswer, setHasWrongAnswer] = useState(false);
 
 	const activeCard = useMemo(() => words.find((w) => w.word === cards[0]), [cards]);
 
@@ -50,6 +51,10 @@ const App = () => {
 	const dismiss = useCallback(async (result: Result) => {
 		const { word } = activeCard!;
 
+		if (result === 'failure') {
+			setHasWrongAnswer(true);
+		}
+
 		setShowWordAnswer(false);
 
 		await addHistoryEntry({
@@ -61,9 +66,13 @@ const App = () => {
 		setCards(cards.filter((c) => c !== word));
 	}, [activeCard]);
 
+	const restartRound = async () => {
+		setCards(await getActiveWords());
+	};
+
 	const startNewRound = async () => {
 		await addRandomWord();
-		setCards(await getActiveWords());
+		await restartRound();
 	};
 
 	return (
@@ -72,13 +81,15 @@ const App = () => {
 			{showCongratulations && (
 				<View style={styles.doneWrapper}>
 					<Icon
-						name="ios-happy-outline"
+						name={hasWrongAnswer ? 'ios-sad-outline' : 'ios-happy-outline'}
 						size={72}
 					/>
-					<Text style={styles.doneText}>Good job!</Text>
+					<Text style={styles.doneText}>
+						{hasWrongAnswer ? 'Oops!' : 'Good job!'}
+					</Text>
 					<Button
-						title="Start new round"
-						onPress={startNewRound}
+						title={hasWrongAnswer ? 'Try again' : 'Start new round'}
+						onPress={hasWrongAnswer ? restartRound : startNewRound}
 					/>
 				</View>
 			)}
