@@ -194,13 +194,15 @@ const styles = StyleSheet.create({
 		shadowRadius: 2,
 		shadowOpacity: 0.5,
 		shadowOffset: { width: 0, height: 1 },
-		backgroundColor: 'white',
+		backgroundColor: '#531dab',
 	},
 	word: {
 		fontSize: 32,
 		paddingVertical: 32,
+		color: 'white',
 	},
 	translation: {
+		color: 'white',
 		fontWeight: 'bold',
 	},
 	separator: {

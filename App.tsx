@@ -6,9 +6,9 @@ import {
 	SafeAreaView,
 	StyleSheet,
 	View,
+	StatusBar,
 } from 'react-native';
 import Card from './src/components/Card';
-import HistoryList from './src/components/HistoryList';
 import {
 	addHistoryEntry,
 	addRandomWord,
@@ -56,8 +56,12 @@ const App = () => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<Button onPress={addCard} title="Add word" color="white" />
-			<HistoryList />
+			<StatusBar barStyle="light-content" />
+			<Button
+				onPress={addCard}
+				title="Add word"
+				color="white"
+			/>
 			<View style={styles.cardWrapper}>
 				{activeCard != null && (
 					<Card
@@ -77,7 +81,7 @@ const App = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#1890ff',
+		backgroundColor: '#120338',
 	},
 	cardWrapper: {
 		flex: 1,
