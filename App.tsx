@@ -1,5 +1,8 @@
 import React, {
-	useCallback, useEffect, useMemo, useState,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
 } from 'react';
 import {
 	Button,
@@ -9,11 +12,12 @@ import {
 	StatusBar,
 } from 'react-native';
 import Card from './src/components/Card';
+import Icon from './src/components/Icon';
+import Text from './src/components/Text';
 import {
 	addHistoryEntry,
 	addRandomWord,
 	getActiveWords,
-	removeWord,
 } from './src/lib/storage';
 import Theme from './src/lib/theme';
 import { Result } from './src/types';
@@ -22,25 +26,28 @@ import words from './src/utils/words.json';
 const App = () => {
 	const [showAnswer, setShowWordAnswer] = useState(false);
 	const [cards, setCards] = useState<string[]>([]);
+	const [showCongratulations, setShowCongratulations] = useState(false);
 
 	const activeCard = useMemo(() => words.find((w) => w.word === cards[0]), [cards]);
 
 	useEffect(() => {
-		updateCards();
+		(async () => {
+			let currentWords = await getActiveWords();
+
+			if (currentWords.length === 0) {
+				await addRandomWord();
+				currentWords = await getActiveWords();
+			}
+
+			setCards(currentWords);
+		})();
 	}, []);
 
-	const updateCards = async () => {
-		const newCards = await getActiveWords();
-		setCards(newCards);
+	const cardShown = () => {
+		setShowCongratulations(cards.length === 1);
 	};
 
-	const addCard = async () => {
-		setShowWordAnswer(false);
-		await addRandomWord();
-		await updateCards();
-	};
-
-	const removeCard = useCallback(async (result: Result) => {
+	const dismiss = useCallback(async (result: Result) => {
 		const { word } = activeCard!;
 
 		setShowWordAnswer(false);
@@ -51,30 +58,45 @@ const App = () => {
 			result,
 		});
 
-		await removeWord(word);
-		await updateCards();
+		setCards(cards.filter((c) => c !== word));
 	}, [activeCard]);
+
+	const startNewRound = async () => {
+		await addRandomWord();
+		setCards(await getActiveWords());
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<StatusBar barStyle="light-content" />
-			<Button
-				onPress={addCard}
-				title="Add word"
-				color="white"
-			/>
-			<View style={styles.cardWrapper}>
-				{activeCard != null && (
-					<Card
-						interactive
-						word={activeCard.word}
-						translation={activeCard.translation}
-						onDismiss={removeCard}
-						onPress={() => setShowWordAnswer(!showAnswer)}
-						showAnswer={showAnswer}
+			{showCongratulations && (
+				<View style={styles.doneWrapper}>
+					<Icon
+						name="ios-happy-outline"
+						size={72}
 					/>
-				)}
-			</View>
+					<Text style={styles.doneText}>Good job!</Text>
+					<Button
+						title="Start new round"
+						onPress={startNewRound}
+					/>
+				</View>
+			)}
+			{cards.length > 0 && (
+				<View style={styles.cardWrapper}>
+					{activeCard != null && (
+						<Card
+							interactive
+							word={activeCard.word}
+							translation={activeCard.translation}
+							onDismiss={dismiss}
+							onCardShown={cardShown}
+							onPress={() => setShowWordAnswer(!showAnswer)}
+							showAnswer={showAnswer}
+						/>
+					)}
+				</View>
+			)}
 		</SafeAreaView>
 	);
 };
@@ -88,6 +110,15 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	doneWrapper: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		...StyleSheet.absoluteFillObject,
+	},
+	doneText: {
+		fontSize: 36,
 	},
 });
 

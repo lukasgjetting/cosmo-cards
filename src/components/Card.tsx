@@ -35,6 +35,7 @@ interface CardProps {
 	translation: string;
 	onPress: TouchableOpacityProps['onPress'];
 	onDismiss: (result: Result) => void;
+	onCardShown: () => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -44,6 +45,7 @@ const Card: React.FC<CardProps> = ({
 	interactive,
 	onPress,
 	onDismiss,
+	onCardShown,
 }) => {
 	const showingAnswer = useRef(false);
 	const cardRef = useRef<FlipCard>();
@@ -95,7 +97,7 @@ const Card: React.FC<CardProps> = ({
 		Animated.spring(pan.current, {
 			useNativeDriver: false,
 			toValue: { x: 0, y: 0 },
-		}).start();
+		}).start(onCardShown);
 	}, [word]);
 
 	useLayoutEffect(() => {
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
 		top: 0,
 		left: 0,
 		right: 0,
-		paddingVertical: 16,
+		padding: 16,
 		color: Theme.opposite,
 		zIndex: 1,
 		fontWeight: 'bold',
@@ -224,13 +226,14 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		alignItems: 'center',
 		justifyContent: 'center',
-		textAlignVertical: 'center',
 		textAlign: 'center',
 	},
 	resultSuccess: {
+		textAlign: 'left',
 		backgroundColor: '#52c41a',
 	},
 	resultFailure: {
+		textAlign: 'right',
 		backgroundColor: '#f5222d',
 	},
 });

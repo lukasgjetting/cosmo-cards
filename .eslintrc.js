@@ -16,5 +16,6 @@ module.exports = {
 		'@typescript-eslint/indent': ['error', 'tab'],
 		'@typescript-eslint/no-use-before-define': 0,
 		'operator-linebreak': ['error', 'after'],
+		'react/require-default-props': 0,
 	},
 };
