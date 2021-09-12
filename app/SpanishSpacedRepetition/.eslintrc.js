@@ -15,5 +15,6 @@ module.exports = {
 		'react/jsx-props-no-spreading': 0,
 		'@typescript-eslint/indent': ['error', 'tab'],
 		'@typescript-eslint/no-use-before-define': 0,
+		'operator-linebreak': ['error', 'after'],
 	},
 };

@@ -1,14 +1,14 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import { History, HistoryEntry } from '../types';
 import words from '../utils/words.json';
 
-export interface HistoryEntry {
-	word: string;
-	success: boolean;
-}
+type RawHistoryEntry = Omit<HistoryEntry, 'date'> & {
+	date: string;
+};
 
-export interface Store {
+interface Store {
 	activeWords: string[];
-	history: HistoryEntry[];
+	history: RawHistoryEntry[];
 }
 
 const getValue = async <T extends keyof Store>(
@@ -22,7 +22,23 @@ const setValue = <T extends keyof Store>(
 ) => AsyncStorage.setItem(key, JSON.stringify(value));
 
 export const getActiveWords = (): Promise<Store['activeWords']> => getValue('activeWords', []);
-export const getHistory = () => getValue('history', []);
+export const getHistory = async (): Promise<History> => {
+	const rawHistory = await getValue('history', []);
+
+	return rawHistory.map((e) => ({
+		...e,
+		date: new Date(e.date),
+	}));
+};
+
+export const addHistoryEntry = async (entry: HistoryEntry): Promise<void> => {
+	const currentHistory = await getHistory();
+
+	await setValue('history', [...currentHistory, entry].map((e) => ({
+		...e,
+		date: e.date.toString(),
+	})));
+};
 
 export const addRandomWord = async () => {
 	const currentWords = await getActiveWords();

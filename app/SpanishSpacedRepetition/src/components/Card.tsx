@@ -12,6 +12,7 @@ import {
 	View,
 } from 'react-native';
 import FlipCard from 'react-native-card-flip';
+import { Result } from '../types';
 
 const {
 	width: screenWidth,
@@ -32,7 +33,7 @@ interface CardProps {
 	interactive: boolean;
 	translation: string;
 	onPress: TouchableOpacityProps['onPress'];
-	onDismiss: () => void;
+	onDismiss: (result: Result) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -55,8 +56,8 @@ const Card: React.FC<CardProps> = ({
 	const panResponder = useMemo(() => PanResponder.create({
 		onStartShouldSetPanResponder: () => false,
 		onMoveShouldSetPanResponder: (event, gestureState) => (
-			gestureState.dx !== 0
-			|| gestureState.dy !== 0
+			gestureState.dx !== 0 ||
+			gestureState.dy !== 0
 		),
 		onPanResponderMove: (event, gestureState) => {
 			pan.current.setValue({
@@ -72,7 +73,8 @@ const Card: React.FC<CardProps> = ({
 			const drag = Math.abs(gestureState.dx) + Math.abs(gestureState.vx) * velocityWeight;
 
 			if (drag > minDismissDrag) {
-				callback = onDismiss;
+				const result = gestureState.dx > 0 ? 'success' : 'failure';
+				callback = () => onDismiss(result);
 				x = 1.3 * (gestureState.dx > 0 ? screenWidth : -screenWidth);
 			}
 
