@@ -1,5 +1,5 @@
 import React, {
-	useEffect, useLayoutEffect, useMemo, useRef,
+	useEffect, useLayoutEffect, useMemo, useRef, useState,
 } from 'react';
 import {
 	Animated,
@@ -24,6 +24,8 @@ const cardHeight = Math.min(screenHeight * 0.80, cardWidth * 1.50);
 const minDismissDrag = screenWidth * 0.30;
 const velocityWeight = 75;
 
+const getRandomDirection = (): 'x' | 'y' => (Math.random() > 0.5 ? 'x' : 'y');
+
 interface CardProps {
 	showAnswer: boolean;
 	word: string;
@@ -44,6 +46,11 @@ const Card: React.FC<CardProps> = ({
 	const showingAnswer = useRef(false);
 	const cardRef = useRef<FlipCard>();
 	const pan = useRef(new Animated.ValueXY());
+	const [flipDirection, setFlipDirection] = useState(getRandomDirection);
+
+	useEffect(() => {
+		setFlipDirection(getRandomDirection());
+	}, [word]);
 
 	const panResponder = useMemo(() => PanResponder.create({
 		onStartShouldSetPanResponder: () => false,
@@ -117,16 +124,36 @@ const Card: React.FC<CardProps> = ({
 				styles.container,
 			]}
 		>
+			<Animated.Text
+				style={[styles.resultWrapper, styles.resultSuccess, {
+					opacity: pan.current.x.interpolate({
+						inputRange: [0, screenWidth / 3],
+						outputRange: [0, 0.85],
+					}),
+				}]}
+			>
+				Success
+			</Animated.Text>
+			<Animated.Text
+				style={[styles.resultWrapper, styles.resultFailure, {
+					opacity: pan.current.x.interpolate({
+						inputRange: [-screenWidth / 3, 0],
+						outputRange: [0.85, 0],
+					}),
+				}]}
+			>
+				Failure
+			</Animated.Text>
 			<FlipCard
 				ref={(card) => {
 					cardRef.current = card || undefined;
 				}}
 				style={styles.card}
-				flipDirection="x"
+				flipDirection={flipDirection}
 			>
 				<TouchableOpacity
 					disabled={!interactive}
-					style={[styles.sideContainer, styles.front]}
+					style={styles.sideContainer}
 					onPress={onPress}
 					activeOpacity={1}
 				>
@@ -134,7 +161,7 @@ const Card: React.FC<CardProps> = ({
 				</TouchableOpacity>
 				<TouchableOpacity
 					disabled={!interactive}
-					style={[styles.sideContainer, styles.back]}
+					style={styles.sideContainer}
 					onPress={onPress}
 					activeOpacity={1}
 				>
@@ -165,11 +192,6 @@ const styles = StyleSheet.create({
 		shadowRadius: 2,
 		shadowOpacity: 0.5,
 		shadowOffset: { width: 0, height: 1 },
-	},
-	front: {
-		backgroundColor: 'white',
-	},
-	back: {
 		backgroundColor: 'white',
 	},
 	word: {
@@ -183,6 +205,28 @@ const styles = StyleSheet.create({
 		width: '80%',
 		height: 1,
 		backgroundColor: '#CCC',
+	},
+	resultWrapper: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		paddingVertical: 16,
+		color: 'white',
+		zIndex: 1,
+		fontWeight: 'bold',
+		textTransform: 'uppercase',
+		fontSize: 24,
+		alignItems: 'center',
+		justifyContent: 'center',
+		textAlignVertical: 'center',
+		textAlign: 'center',
+	},
+	resultSuccess: {
+		backgroundColor: '#52c41a',
+	},
+	resultFailure: {
+		backgroundColor: '#f5222d',
 	},
 });
 
