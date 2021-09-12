@@ -7,7 +7,7 @@ import {
 	StyleSheet,
 	View,
 } from 'react-native';
-import Card from './src/components/ Card';
+import Card from './src/components/Card';
 import { addRandomWord, getActiveWords, removeWord } from './src/lib/storage';
 import words from './src/utils/words.json';
 
