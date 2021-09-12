@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
-	FlatList, StyleSheet, Text, View,
+	FlatList, StyleSheet, View,
 } from 'react-native';
 import { getHistory } from '../lib/storage';
 import { History } from '../types';
 import formatDate from '../utils/formatDate';
+import Text from './Text';
 
 const HistoryList = () => {
 	const [history, setHistory] = useState<History>([]);

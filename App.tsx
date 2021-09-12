@@ -15,6 +15,7 @@ import {
 	getActiveWords,
 	removeWord,
 } from './src/lib/storage';
+import Theme from './src/lib/theme';
 import { Result } from './src/types';
 import words from './src/utils/words.json';
 
@@ -81,7 +82,7 @@ const App = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#120338',
+		backgroundColor: Theme.primary,
 	},
 	cardWrapper: {
 		flex: 1,

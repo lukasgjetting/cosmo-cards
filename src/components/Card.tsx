@@ -6,13 +6,14 @@ import {
 	Dimensions,
 	PanResponder,
 	StyleSheet,
-	Text,
 	TouchableOpacity,
 	TouchableOpacityProps,
 	View,
 } from 'react-native';
 import FlipCard from 'react-native-card-flip';
+import Theme from '../lib/theme';
 import { Result } from '../types';
+import Text from './Text';
 
 const {
 	width: screenWidth,
@@ -194,15 +195,15 @@ const styles = StyleSheet.create({
 		shadowRadius: 2,
 		shadowOpacity: 0.5,
 		shadowOffset: { width: 0, height: 1 },
-		backgroundColor: '#531dab',
+		backgroundColor: Theme.light,
 	},
 	word: {
 		fontSize: 32,
 		paddingVertical: 32,
-		color: 'white',
+		color: Theme.opposite,
 	},
 	translation: {
-		color: 'white',
+		color: Theme.opposite,
 		fontWeight: 'bold',
 	},
 	separator: {
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		paddingVertical: 16,
-		color: 'white',
+		color: Theme.opposite,
 		zIndex: 1,
 		fontWeight: 'bold',
 		textTransform: 'uppercase',
